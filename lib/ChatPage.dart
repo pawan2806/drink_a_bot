@@ -1,3 +1,6 @@
+// ignore: file_names
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -112,6 +115,7 @@ class _ChatPage extends State<ChatPage> {
     final serverName = widget.server.name ?? "Unknown";
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.red,
           title: (isConnecting
               ? Text('Connecting chat to ' + serverName + '...')
               : isConnected
@@ -119,43 +123,70 @@ class _ChatPage extends State<ChatPage> {
               : Text('Chat log with ' + serverName))),
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            SizedBox(height:30),
+            Text("Remote Control Car Controls"),
+            SizedBox(height:30),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      icon: const Icon(Icons.arrow_circle_up),
+                      onPressed: isConnected
+                          ? () => _sendMessage('F')
+                          : null),
+                ),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: isConnected
+                          ? () => _sendMessage('L')
+                          : null),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      icon: const Icon(Icons.arrow_forward),
+                      onPressed: isConnected
+                          ? () => _sendMessage('R')
+                          : null),
+                ),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment:MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      icon: const Icon(Icons.arrow_circle_down),
+                      onPressed: isConnected
+                          ? () => _sendMessage('B')
+                          : null),
+                ),
+              ],
+            ),
+
+
             Flexible(
               child: ListView(
                   padding: const EdgeInsets.all(12.0),
                   controller: listScrollController,
                   children: list),
             ),
-            Row(
-              children: <Widget>[
-                Flexible(
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 16.0),
-                    child: TextField(
-                      style: const TextStyle(fontSize: 15.0),
-                      controller: textEditingController,
-                      decoration: InputDecoration.collapsed(
-                        hintText: isConnecting
-                            ? 'Wait until connected...'
-                            : isConnected
-                            ? 'Type your message...'
-                            : 'Chat got disconnected',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                      ),
-                      enabled: isConnected,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: isConnected
-                          ? () => _sendMessage(textEditingController.text)
-                          : null),
-                ),
-              ],
-            )
+
           ],
         ),
       ),
@@ -214,10 +245,12 @@ class _ChatPage extends State<ChatPage> {
   void _sendMessage(String text) async {
     text = text.trim();
     textEditingController.clear();
-
+    print(text);
     if (text.length > 0) {
       try {
+        print(utf8.encode(text));
         connection!.output.add(Uint8List.fromList(utf8.encode(text)));
+
         await connection!.output.allSent;
 
         setState(() {

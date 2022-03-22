@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -121,6 +123,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
         .toList();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Colors.red,
         title: Text('Select device'),
         actions: <Widget>[
           _isDiscovering
@@ -140,7 +143,10 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
           )
         ],
       ),
-      body: ListView(children: list),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(children: list),
+      ),
     );
   }
 }
