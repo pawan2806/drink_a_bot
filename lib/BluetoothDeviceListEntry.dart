@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
+import 'package:drink_a_bot/helpers/constants.dart';
 import 'package:flutter/material.dart';
+import 'helpers/constants.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class BluetoothDeviceListEntry extends ListTile {
@@ -19,9 +21,10 @@ class BluetoothDeviceListEntry extends ListTile {
     title: Text(device.name ?? ""),
     subtitle: Text(device.address.toString()),
     trailing: FlatButton(
-      child: Text('Connect',style: TextStyle(color:Colors.white,fontFamily: 'Montserrat'),),
+      
+      child: Text('Connect',style: TextStyle(color:Colors.white,),),
       onPressed: onTap,
-      color: Colors.red,
+      color:redShade,
     ),
   );
 }

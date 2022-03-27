@@ -2,10 +2,11 @@
 
 import 'dart:async';
 
+import 'package:drink_a_bot/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:scoped_model/scoped_model.dart';
-
+import 'helpers/constants.dart';
 import './BackgroundCollectedPage.dart';
 import './BackgroundCollectingTask.dart';
 import './ChatPage.dart';
@@ -89,134 +90,314 @@ class _MainPage extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Bluetooth Serial'),
-        backgroundColor: Colors.red,
-      ),
-      body: Container(
-        child: ListView(
-          children: <Widget>[
-            Divider(),
-            SwitchListTile(
-              title: const Text('Enable Bluetooth'),
-              activeColor: Colors.red,
-              value: _bluetoothState.isEnabled,
-              onChanged: (bool value) {
-                // Do the request and update with the true value then
-                future() async {
-                  // async lambda seems to not working
-                  if (value)
-                    await FlutterBluetoothSerial.instance.requestEnable();
-                  else
-                    await FlutterBluetoothSerial.instance.requestDisable();
-                }
-
-                future().then((_) {
-                  setState(() {});
-                });
-              },
-            ),
-
-            ListTile(
-
-              title: FlatButton(
-                color: Colors.red,
-                  child: const Text('Search for devices to pair',style: TextStyle(color: Colors.white),),
-                  onPressed: () async {
-                    final BluetoothDevice? selectedDevice =
-                    await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return DiscoveryPage();
-                        },
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   title: const Text('Flutter Bluetooth Serial'),
+        //   backgroundColor: Colors.red,
+        // ),
+        body: Container(
+          child: ListView(
+            children: <Widget>[
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: greyShade,
+                            size: 25,
+                          ),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            "Flutter Bluetooth Serial",
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: greyShade,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.only(right: 30.0, left: 30.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    //border: Border.all(width: 3.0),
+                    color: Color(0xffEEEEEE),
+                    borderRadius: BorderRadius.all(Radius.circular(
+                            20.0) //                 <--- border radius here
+                        ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SwitchListTile(
+                      tileColor: greyShade,
+                      title: const Text(
+                        'Enable Bluetooth',
+                        style: TextStyle(
+                          fontSize: 18,
+                          //color: greyShade,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    );
+                      activeColor:   Color(0xFFFC4F4F),
+                      value: _bluetoothState.isEnabled,
+                      onChanged: (bool value) {
+                        // Do the request and update with the true value then
+                        future() async {
+                          // async lambda seems to not working
+                          if (value)
+                            await FlutterBluetoothSerial.instance
+                                .requestEnable();
+                          else
+                            await FlutterBluetoothSerial.instance
+                                .requestDisable();
+                        }
 
-                    if (selectedDevice != null) {
-                      print('Discovery -> selected ' + selectedDevice.address);
-                    } else {
-                      print('Discovery -> no device selected');
-                    }
-                  }),
-            ),
-            ListTile(
-              title: FlatButton(
-                color:Colors.red,
-                child: const Text('Select Paired Device to send data',style: TextStyle(color: Colors.white),),
-                onPressed: () async {
-                  final BluetoothDevice? selectedDevice =
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SelectBondedDevicePage(checkAvailability: false);
+                        future().then((_) {
+                          setState(() {});
+                        });
                       },
                     ),
-                  );
-
-                  if (selectedDevice != null) {
-                    print('Connect -> selected ' + selectedDevice.address);
-                    _startChat(context, selectedDevice);
-                  } else {
-                    print('Connect -> no device selected');
-                  }
-                },
+                  ),
+                ),
               ),
-            ),
-            Divider(),
-//            ListTile(title: const Text('Multiple connections example')),
-//            ListTile(
-//              title: ElevatedButton(
-//                child: ((_collectingTask?.inProgress ?? false)
-//                    ? const Text('Disconnect and stop background collecting')
-//                    : const Text('Connect to start background collecting')),
-//                onPressed: () async {
-//                  if (_collectingTask?.inProgress ?? false) {
-//                    await _collectingTask!.cancel();
-//                    setState(() {
-//                      /* Update for `_collectingTask.inProgress` */
-//                    });
-//                  } else {
-//                    final BluetoothDevice? selectedDevice =
-//                    await Navigator.of(context).push(
-//                      MaterialPageRoute(
-//                        builder: (context) {
-//                          return SelectBondedDevicePage(
-//                              checkAvailability: false);
-//                        },
-//                      ),
-//                    );
-//
-//                    if (selectedDevice != null) {
-//                      await _startBackgroundTask(context, selectedDevice);
-//                      setState(() {
-//                        /* Update for `_collectingTask.inProgress` */
-//                      });
-//                    }
-//                  }
-//                },
-//              ),
-//            ),
-//            ListTile(
-//              title: ElevatedButton(
-//                child: const Text('View background collected data'),
-//                onPressed: (_collectingTask != null)
-//                    ? () {
-//                  Navigator.of(context).push(
-//                    MaterialPageRoute(
-//                      builder: (context) {
-//                        return ScopedModel<BackgroundCollectingTask>(
-//                          model: _collectingTask!,
-//                          child: BackgroundCollectedPage(),
-//                        );
-//                      },
-//                    ),
-//                  );
-//                }
-//                    : null,
-//              ),
-//            ),
-          ],
+              SizedBox(height: MediaQuery.of(context).size.height * 0.2,),
+
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10.0, left: 15.0, right: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                onPrimary:   Color(0xFFFC4F4F),
+                                side: BorderSide(
+                                  width: 3,
+                                   color: Color(0xFFFC4F4F),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () async {
+                                final BluetoothDevice? selectedDevice =
+                                    await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return DiscoveryPage();
+                                    },
+                                  ),
+                                );
+
+                                if (selectedDevice != null) {
+                                  print('Discovery -> selected ' +
+                                      selectedDevice.address);
+                                } else {
+                                  print('Discovery -> no device selected');
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Search for devices to pair',
+                                  style: TextStyle( color: Color(0xFFFC4F4F),
+                                  fontSize: 16.0,),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10.0, left: 15.0, right: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                onPrimary: Color(0xFFFC4F4F),
+                                side: BorderSide(
+                                  width: 3,
+                                  color: Color(0xFFFC4F4F),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () async {
+                                final BluetoothDevice? selectedDevice =
+                                    await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return SelectBondedDevicePage(
+                                          checkAvailability: false);
+                                    },
+                                  ),
+                                );
+
+                                if (selectedDevice != null) {
+                                  print('Connect -> selected ' +
+                                      selectedDevice.address);
+                                  _startChat(context, selectedDevice);
+                                } else {
+                                  print('Connect -> no device selected');
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Select Paired Device to send data',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                     color: Color(0xFFFC4F4F),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      //     ListTile(
+                      //   title: FlatButton(
+                      //       color: Colors.red,
+                      //       child: const Text(
+                      //         'Search for devices to pair',
+                      //         style: TextStyle(color: Colors.white),
+                      //       ),
+                      //       onPressed: () async {
+                      //         final BluetoothDevice? selectedDevice =
+                      //             await Navigator.of(context).push(
+                      //           MaterialPageRoute(
+                      //             builder: (context) {
+                      //               return DiscoveryPage();
+                      //             },
+                      //           ),
+                      //         );
+
+                      //         if (selectedDevice != null) {
+                      //           print(
+                      //               'Discovery -> selected ' + selectedDevice.address);
+                      //         } else {
+                      //           print('Discovery -> no device selected');
+                      //         }
+                      //       }),
+                      // ),
+                      // ListTile(
+                      //   title: FlatButton(
+                      //     color: Colors.red,
+                      //     child: const Text(
+                      //       'Select Paired Device to send data',
+                      //       style: TextStyle(color: Colors.white),
+                      //     ),
+                      //     onPressed: () async {
+                      //       final BluetoothDevice? selectedDevice =
+                      //           await Navigator.of(context).push(
+                      //         MaterialPageRoute(
+                      //           builder: (context) {
+                      //             return SelectBondedDevicePage(
+                      //                 checkAvailability: false);
+                      //           },
+                      //         ),
+                      //       );
+
+                      //       if (selectedDevice != null) {
+                      //         print('Connect -> selected ' + selectedDevice.address);
+                      //         _startChat(context, selectedDevice);
+                      //       } else {
+                      //         print('Connect -> no device selected');
+                      //       }
+                      //     },
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+
+              Divider(),
+              //            ListTile(title: const Text('Multiple connections example')),
+              //            ListTile(
+              //              title: ElevatedButton(
+              //                child: ((_collectingTask?.inProgress ?? false)
+              //                    ? const Text('Disconnect and stop background collecting')
+              //                    : const Text('Connect to start background collecting')),
+              //                onPressed: () async {
+              //                  if (_collectingTask?.inProgress ?? false) {
+              //                    await _collectingTask!.cancel();
+              //                    setState(() {
+              //                      /* Update for `_collectingTask.inProgress` */
+              //                    });
+              //                  } else {
+              //                    final BluetoothDevice? selectedDevice =
+              //                    await Navigator.of(context).push(
+              //                      MaterialPageRoute(
+              //                        builder: (context) {
+              //                          return SelectBondedDevicePage(
+              //                              checkAvailability: false);
+              //                        },
+              //                      ),
+              //                    );
+              //
+              //                    if (selectedDevice != null) {
+              //                      await _startBackgroundTask(context, selectedDevice);
+              //                      setState(() {
+              //                        /* Update for `_collectingTask.inProgress` */
+              //                      });
+              //                    }
+              //                  }
+              //                },
+              //              ),
+              //            ),
+              //            ListTile(
+              //              title: ElevatedButton(
+              //                child: const Text('View background collected data'),
+              //                onPressed: (_collectingTask != null)
+              //                    ? () {
+              //                  Navigator.of(context).push(
+              //                    MaterialPageRoute(
+              //                      builder: (context) {
+              //                        return ScopedModel<BackgroundCollectingTask>(
+              //                          model: _collectingTask!,
+              //                          child: BackgroundCollectedPage(),
+              //                        );
+              //                      },
+              //                    ),
+              //                  );
+              //                }
+              //                    : null,
+              //              ),
+              //            ),
+            ],
+          ),
         ),
       ),
     );
@@ -233,9 +414,9 @@ class _MainPage extends State<MainPage> {
   }
 
   Future<void> _startBackgroundTask(
-      BuildContext context,
-      BluetoothDevice server,
-      ) async {
+    BuildContext context,
+    BluetoothDevice server,
+  ) async {
     try {
       _collectingTask = await BackgroundCollectingTask.connect(server);
       await _collectingTask!.start();

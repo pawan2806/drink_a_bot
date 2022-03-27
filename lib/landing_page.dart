@@ -1,4 +1,5 @@
 import 'package:drink_a_bot/MainPage.dart';
+import 'package:drink_a_bot/helpers/constants.dart';
 import 'package:flutter/material.dart';
 //import 'package:assets_audio_player/assets_audio_player.dart';
 
@@ -49,7 +50,7 @@ class _LandingPageState extends State<LandingPage> {
                         child: Text(
                             'Crazy LED',
                             style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              //fontFamily: 'Montserrat',
                               color: Colors.white,
                               fontSize: 50.0,
                             )
@@ -61,7 +62,7 @@ class _LandingPageState extends State<LandingPage> {
                       child: Text(
                           'Lighting for every mood.',
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            //fontFamily: 'Montserrat',
                             color: Colors.white,
                             fontSize:20.0,
                           )
@@ -80,7 +81,7 @@ class _LandingPageState extends State<LandingPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Card(
                         margin: EdgeInsets.symmetric(vertical: 0.0,horizontal: 25.0),
-                        color: Colors.red,
+                        color: redShade,
                         child: FlatButton(
                           onPressed: () {
                             Navigator.push(
@@ -93,7 +94,7 @@ class _LandingPageState extends State<LandingPage> {
                               child: Text(
                                 "Connect Device",
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  //fontFamily: 'Montserrat',
                                   fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,

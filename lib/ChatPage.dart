@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:drink_a_bot/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
@@ -114,19 +115,74 @@ class _ChatPage extends State<ChatPage> {
 
     final serverName = widget.server.name ?? "Unknown";
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-          title: (isConnecting
-              ? Text('Connecting chat to ' + serverName + '...')
-              : isConnected
-              ? Text('Live chat with ' + serverName)
-              : Text('Chat log with ' + serverName))),
+      // appBar: AppBar(
+      //   backgroundColor: redShade,
+      //     title: (isConnecting
+      //         ? Text('Connecting chat to ' + serverName + '...')
+      //         : isConnected
+      //         ? Text('Live chat with ' + serverName)
+      //         : Text('Chat log with ' + serverName))),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height:30),
-            Text("Remote Control Car Controls"),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: greyShade,
+                            size: 25,
+                          ),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                    Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              isConnecting?
+                              'Connecting chat to ' +'\n'+ serverName + '...' : isConnected ? 'Live chat with ' +'\n'+ serverName : 'Chat log with '+'\n'+ serverName,
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: greyShade,
+                                
+                                fontWeight: FontWeight.w800,
+                              ),
+                              maxLines: 4,
+                            ),
+                          ),
+                  ],
+                ),
+              ],
+            ),
+            Divider(),
+            SizedBox(height:20),
+            Padding(
+               padding: const EdgeInsets.only(right: 5.0, left: 5.0),
+              child: Container(
+                    decoration: BoxDecoration(
+                      //border: Border.all(width: 3.0),
+                      color: Color(0xffEEEEEE),
+                      borderRadius: BorderRadius.all(Radius.circular(
+                              20.0) //                 <--- border radius here
+                          ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 30.0, left: 30.0, top: 20, bottom: 20.0),
+                      child: Text(
+                          "Drink-a-Bot Controls",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: greyShade,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                    ),
+                  ),
+            ),
+            //Text("Remote Control Car Controls"),
             SizedBox(height:30),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,7 +191,8 @@ class _ChatPage extends State<ChatPage> {
                 Container(
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      icon: const Icon(Icons.arrow_circle_up),
+                      icon: const Icon(Icons.arrow_circle_up,
+                      size: 35.0,),
                       onPressed: isConnected
                           ? () => _sendMessage('F')
                           : null),
@@ -149,7 +206,7 @@ class _ChatPage extends State<ChatPage> {
                 Container(
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const Icon(Icons.arrow_back,size: 35.0,),
                       onPressed: isConnected
                           ? () => _sendMessage('L')
                           : null),
@@ -157,7 +214,7 @@ class _ChatPage extends State<ChatPage> {
                 Container(
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      icon: const Icon(Icons.arrow_forward),
+                      icon: const Icon(Icons.arrow_forward, size: 35.0,),
                       onPressed: isConnected
                           ? () => _sendMessage('R')
                           : null),
@@ -171,14 +228,14 @@ class _ChatPage extends State<ChatPage> {
                 Container(
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      icon: const Icon(Icons.arrow_circle_down),
+                      icon: const Icon(Icons.arrow_circle_down, size: 35.0,),
                       onPressed: isConnected
                           ? () => _sendMessage('B')
                           : null),
                 ),
               ],
             ),
-
+            Divider(),
 
             Flexible(
               child: ListView(
