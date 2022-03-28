@@ -8,6 +8,7 @@ import 'dart:typed_data';
 
 import 'package:drink_a_bot/helpers/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class ChatPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ChatPage extends State<ChatPage> {
   String _messageBuffer = '';
 
   final TextEditingController textEditingController =
-  new TextEditingController();
+      new TextEditingController();
   final ScrollController listScrollController = new ScrollController();
 
   bool isConnecting = true;
@@ -99,7 +100,7 @@ class _ChatPage extends State<ChatPage> {
         children: <Widget>[
           Container(
             child: Text(
-                    (text) {
+                (text) {
                   return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
                 }(_message.text.trim()),
                 style: TextStyle(color: Colors.white)),
@@ -108,7 +109,7 @@ class _ChatPage extends State<ChatPage> {
             width: 222.0,
             decoration: BoxDecoration(
                 color:
-                _message.whom == clientID ? Colors.blueAccent : Colors.grey,
+                    _message.whom == clientID ? Color(0xff00C897) :  Color(0xff4286f4),
                 borderRadius: BorderRadius.circular(7.0)),
           ),
         ],
@@ -128,7 +129,9 @@ class _ChatPage extends State<ChatPage> {
       //         ? Text('Live chat with ' + serverName)
       //         : Text('Chat log with ' + serverName))),
       body: SafeArea(
-        child: Column(
+        child:
+
+            Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
@@ -137,58 +140,61 @@ class _ChatPage extends State<ChatPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: greyShade,
-                            size: 25,
-                          ),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: greyShade,
+                        size: 25,
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
                     Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              isConnecting?
-                              'Connecting chat to ' +'\n'+ serverName + '...' : isConnected ? 'Live chat with ' +'\n'+ serverName : 'Chat log with '+'\n'+ serverName,
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: greyShade,
-
-                                fontWeight: FontWeight.w800,
-                              ),
-                              maxLines: 4,
-                            ),
-                          ),
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        isConnecting
+                            ? 'Connecting chat to ' + '\n' + serverName + '...'
+                            : isConnected
+                                ? 'Live chat with ' + '\n' + serverName
+                                : 'Chat log with ' + '\n' + serverName,
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: greyShade,
+                          fontWeight: FontWeight.w800,
+                        ),
+                        maxLines: 4,
+                      ),
+                    ),
                   ],
                 ),
               ],
             ),
             Divider(),
-            SizedBox(height:20),
+            SizedBox(height: 20),
             Padding(
-               padding: const EdgeInsets.only(right: 5.0, left: 5.0),
+              padding: const EdgeInsets.only(right: 5.0, left: 5.0),
               child: Container(
-                    decoration: BoxDecoration(
-                      //border: Border.all(width: 3.0),
-                      color: Color(0xffEEEEEE),
-                      borderRadius: BorderRadius.all(Radius.circular(
-                              20.0) //                 <--- border radius here
-                          ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 30.0, left: 30.0, top: 20, bottom: 20.0),
-                      child: Text(
-                          "Drink-a-Bot Controls",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: greyShade,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                decoration: BoxDecoration(
+                  //border: Border.all(width: 3.0),
+                  color: Color(0xffEEEEEE),
+                  borderRadius: BorderRadius.all(Radius.circular(
+                          20.0) //                 <--- border radius here
+                      ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      right: 30.0, left: 30.0, top: 20, bottom: 20.0),
+                  child: Text(
+                    "Drink-a-Bot Controls",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: greyShade,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                ),
+              ),
             ),
             //Text("Remote Control Car Controls"),
-            SizedBox(height:30),
+            SizedBox(height: 20),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -196,11 +202,11 @@ class _ChatPage extends State<ChatPage> {
                 Container(
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      icon: const Icon(Icons.arrow_circle_up,
-                      size: 35.0,),
-                      onPressed: isConnected
-                          ? () => _sendMessage('F')
-                          : null),
+                      icon: const Icon(
+                        Icons.arrow_circle_up,
+                        size: 35.0,
+                      ),
+                      onPressed: isConnected ? () => _sendMessage('F') : null),
                 ),
               ],
             ),
@@ -211,54 +217,45 @@ class _ChatPage extends State<ChatPage> {
                 Container(
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      icon: const Icon(Icons.arrow_back,size: 35.0,),
-                      onPressed: isConnected
-                          ? () => _sendMessage('L')
-                          : null),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 35.0,
+                      ),
+                      onPressed: isConnected ? () => _sendMessage('L') : null),
                 ),
                 Container(
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      icon: const Icon(Icons.arrow_forward, size: 35.0,),
-                      onPressed: isConnected
-                          ? () => _sendMessage('R')
-                          : null),
+                      icon: const Icon(
+                        Icons.arrow_forward,
+                        size: 35.0,
+                      ),
+                      onPressed: isConnected ? () => _sendMessage('R') : null),
                 ),
               ],
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment:MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      icon: const Icon(Icons.arrow_circle_down, size: 35.0,),
-                      onPressed: isConnected
-                          ? () => _sendMessage('B')
-                          : null),
+                      icon: const Icon(
+                        Icons.arrow_circle_down,
+                        size: 35.0,
+                      ),
+                      onPressed: isConnected ? () => _sendMessage('B') : null),
                 ),
               ],
             ),
-            Divider(),
-            SizedBox(height:20),
-            // Row(
-            //   crossAxisAlignment: CrossAxisAlignment.center,
-            //   mainAxisAlignment:MainAxisAlignment.center,
-            //   children: <Widget>[
-            //     Container(
-            //       margin: const EdgeInsets.all(8.0),
-            //       child: IconButton(
-            //           icon: const Icon(Icons.compress),
-            //           onPressed: isConnected
-            //               ? () => _sendMessage('V')
-            //               : null),
-            //     ),
-            //   ],
-            // ),
+             SizedBox(height: 20),
+            
+           
+
             Padding(
-              padding: const EdgeInsets.only(
-                  top: 10.0, left: 15.0, right: 15.0),
+              padding:
+                  const EdgeInsets.only( left: 15.0, right: 15.0, bottom: 15.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -266,7 +263,7 @@ class _ChatPage extends State<ChatPage> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
-                      onPrimary:   greyShade,
+                      onPrimary: greyShade,
                       side: BorderSide(
                         width: 3,
                         color: greyShade,
@@ -275,20 +272,53 @@ class _ChatPage extends State<ChatPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                onPressed: isConnected
-                              ? () {_sendMessage('V');
-                              if(lowVolume) {
-                                _showMaterialDialog();
-                              }
-                    }
-                              : null,
+                    onPressed: isConnected
+                        ? () {
+                            _sendMessage('V');
+                            if (lowVolume) {
+                              _showMaterialDialog();
+                            }
+                          }
+                        : null,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(bottom:8.0),
                       child: Text(
                         'Get Volume',
-                        style: TextStyle( color: greyShade,
-                          fontSize: 16.0,),
+                        style: TextStyle(
+                          color: greyShade,
+                          fontSize: 16.0,
+                        ),
                         textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: redShade
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Bluetooth Communication" + '\n' + "Messages",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
                       ),
                     ),
                   )
@@ -301,33 +331,34 @@ class _ChatPage extends State<ChatPage> {
                   padding: const EdgeInsets.all(12.0),
                   controller: listScrollController,
                   children: list),
-                  //commit test
+              //commit test
             ),
-
           ],
         ),
       ),
     );
-
   }
+
   void _showMaterialDialog() {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Alert!!'),
-            content: Text('The bottle has ' + (percent*100).toStringAsFixed(1) + '% drink left and requires refilling!'),
+            content: Text('The bottle has ' +
+                (percent * 100).toStringAsFixed(1) +
+                '% drink left and requires refilling!'),
             actions: <Widget>[
               TextButton(
                   onPressed: () {
                     _dismissDialog();
                   },
-                  child: Text('OK',
+                  child: Text(
+                    'OK',
                     style: TextStyle(
                       color: greyShade,
                     ),
                   )),
-
             ],
           );
         });
@@ -336,7 +367,6 @@ class _ChatPage extends State<ChatPage> {
   _dismissDialog() {
     Navigator.pop(context);
   }
-
 
   void _onDataReceived(Uint8List data) {
     print(data);
@@ -370,22 +400,23 @@ class _ChatPage extends State<ChatPage> {
     print(dataString);
     int mini = 350;
     int maxi = 600;
-    int dataInt = int.parse(dataString)>maxi?min(maxi,int.parse(dataString)):max(mini,int.parse(dataString));
+    int dataInt = int.parse(dataString) > maxi
+        ? min(maxi, int.parse(dataString))
+        : max(mini, int.parse(dataString));
     print(dataInt);
-    percent = ((dataInt-mini)/max(1,(maxi-mini)));
-    print(percent*100);
+    percent = ((dataInt - mini) / max(1, (maxi - mini)));
+    print(percent * 100);
 //    TODO enter alert if percent <25% in UI
     setState(() {
-      if(percent<0.25){
+      if (percent < 0.25) {
         lowVolume = true;
-      }
-      else{
+      } else {
         lowVolume = false;
       }
       messages.add(
         _Message(
           1,
-          "The Volume left is " + (percent*100).toStringAsFixed(1) + "%",
+          "The Volume left is " + (percent * 100).toStringAsFixed(1) + "%",
         ),
       );
     });
@@ -417,5 +448,43 @@ class _ChatPage extends State<ChatPage> {
         setState(() {});
       }
     }
+  }
+}
+
+class Delegate extends SliverPersistentHeaderDelegate {
+  final Color backgroundColor;
+  final String _title;
+
+  Delegate(this.backgroundColor, this._title);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: backgroundColor,
+      child: Column(
+        children: [
+          Text(
+            _title,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 80;
+
+  @override
+  double get minExtent => 80;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }

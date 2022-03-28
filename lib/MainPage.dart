@@ -188,12 +188,13 @@ class _MainPage extends State<MainPage> {
 
                       height: 250,
                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
                           gradient: LinearGradient(
                         begin: Alignment.topRight,
                         end: Alignment.bottomLeft,
                         colors: [
-                          Color(0xff7b4397),
-                          Color(0xff33001b),
+                          Color(0xff373B44),
+                          Color(0xff4286f4),
                         ],
                       )),
                       child: Column(
@@ -250,12 +251,13 @@ class _MainPage extends State<MainPage> {
                     child: Container(
                       height: 250,
                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
                           gradient: LinearGradient(
                         begin: Alignment.topRight,
                         end: Alignment.bottomLeft,
                         colors: [
-                          Color(0xff3a6186),
-                          Color(0xff89253e),
+                          Color(0xff373B44),
+                          Color(0xff8360c3),
                         ],
                       )),
                       child: Column(
