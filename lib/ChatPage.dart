@@ -41,6 +41,8 @@ class _ChatPage extends State<ChatPage> {
   bool get isConnected => (connection?.isConnected ?? false);
 
   bool isDisconnecting = false;
+  bool lowVolume = false;
+  double percent = 0.0;
 
   @override
   void initState() {
@@ -50,6 +52,8 @@ class _ChatPage extends State<ChatPage> {
       print('Connected to the device');
       connection = _connection;
       setState(() {
+        percent = 0.0;
+        lowVolume = false;
         isConnecting = false;
         isDisconnecting = false;
       });
@@ -272,7 +276,11 @@ class _ChatPage extends State<ChatPage> {
                       ),
                     ),
                 onPressed: isConnected
-                              ? () => _sendMessage('V')
+                              ? () {_sendMessage('V');
+                              if(lowVolume) {
+                                _showMaterialDialog();
+                              }
+                    }
                               : null,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -300,7 +308,35 @@ class _ChatPage extends State<ChatPage> {
         ),
       ),
     );
+
   }
+  void _showMaterialDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Alert!!'),
+            content: Text('The bottle has ' + (percent*100).toStringAsFixed(1) + '% drink left and requires refilling!'),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    _dismissDialog();
+                  },
+                  child: Text('OK',
+                    style: TextStyle(
+                      color: greyShade,
+                    ),
+                  )),
+
+            ],
+          );
+        });
+  }
+
+  _dismissDialog() {
+    Navigator.pop(context);
+  }
+
 
   void _onDataReceived(Uint8List data) {
     print(data);
@@ -336,10 +372,16 @@ class _ChatPage extends State<ChatPage> {
     int maxi = 600;
     int dataInt = int.parse(dataString)>maxi?min(maxi,int.parse(dataString)):max(mini,int.parse(dataString));
     print(dataInt);
-    double percent = ((dataInt-mini)/max(1,(maxi-mini)));
+    percent = ((dataInt-mini)/max(1,(maxi-mini)));
     print(percent*100);
 //    TODO enter alert if percent <25% in UI
     setState(() {
+      if(percent<0.25){
+        lowVolume = true;
+      }
+      else{
+        lowVolume = false;
+      }
       messages.add(
         _Message(
           1,
