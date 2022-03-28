@@ -296,12 +296,13 @@ class _ChatPage extends State<ChatPage> {
     // Create message if there is new line character
     String dataString = String.fromCharCodes(buffer);
     print(dataString);
-    int mini = 1;
-    int maxi = 300;
-    int dataInt = int.parse(dataString)>300?min(300,int.parse(dataString)):int.parse(dataString);
+    int mini = 350;
+    int maxi = 600;
+    int dataInt = int.parse(dataString)>maxi?min(maxi,int.parse(dataString)):max(mini,int.parse(dataString));
     print(dataInt);
     double percent = ((dataInt-mini)/max(1,(maxi-mini)));
     print(percent*100);
+//    TODO enter alert if percent <25% in UI
     setState(() {
       messages.add(
         _Message(
