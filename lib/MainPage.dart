@@ -153,7 +153,7 @@ class _MainPage extends State<MainPage> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      activeColor:   Color(0xFFFC4F4F),
+                      activeColor: Color(0xFFFC4F4F),
                       value: _bluetoothState.isEnabled,
                       onChanged: (bool value) {
                         // Do the request and update with the true value then
@@ -175,173 +175,310 @@ class _MainPage extends State<MainPage> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.2,),
-
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+              ),
               Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10.0, left: 15.0, right: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                        
+                        height: 250,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Color(0xff7b4397),
+                            Color(0xff33001b),
+                          ],
+                        )),
+                        child: Column(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                onPrimary:   Color(0xFFFC4F4F),
-                                side: BorderSide(
-                                  width: 3,
-                                   color: Color(0xFFFC4F4F),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              onPressed: () async {
-                                final BluetoothDevice? selectedDevice =
-                                    await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return DiscoveryPage();
-                                    },
-                                  ),
-                                );
+                            Row(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    final BluetoothDevice? selectedDevice =
+                                        await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return DiscoveryPage();
+                                        },
+                                      ),
+                                    );
 
-                                if (selectedDevice != null) {
-                                  print('Discovery -> selected ' +
-                                      selectedDevice.address);
-                                } else {
-                                  print('Discovery -> no device selected');
-                                }
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Search for devices to pair',
-                                  style: TextStyle( color: Color(0xFFFC4F4F),
-                                  fontSize: 16.0,),
-                                  textAlign: TextAlign.center,
+                                    if (selectedDevice != null) {
+                                      print('Discovery -> selected ' +
+                                          selectedDevice.address);
+                                    } else {
+                                      print('Discovery -> no device selected');
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text(
+                                      'Search' +
+                                          '\n' +
+                                          'for new' +
+                                          '\n' +
+                                          'Devices',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                        height: 250,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Color(0xff3a6186),
+                            Color(0xff89253e),
+                          ],
+                        )),
+                        child: Column(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    final BluetoothDevice? selectedDevice =
+                                        await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return SelectBondedDevicePage(
+                                              checkAvailability: false);
+                                        },
+                                      ),
+                                    );
+
+                                    if (selectedDevice != null) {
+                                      print('Connect -> selected ' +
+                                          selectedDevice.address);
+                                      _startChat(context, selectedDevice);
+                                    } else {
+                                      print('Connect -> no device selected');
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text(
+                                      'Select ' +
+                                          '\n' +
+                                          'Paired' +
+                                          '\n' +
+                                          'Devices',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             )
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10.0, left: 15.0, right: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                onPrimary: Color(0xFFFC4F4F),
-                                side: BorderSide(
-                                  width: 3,
-                                  color: Color(0xFFFC4F4F),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              onPressed: () async {
-                                final BluetoothDevice? selectedDevice =
-                                    await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return SelectBondedDevicePage(
-                                          checkAvailability: false);
-                                    },
-                                  ),
-                                );
-
-                                if (selectedDevice != null) {
-                                  print('Connect -> selected ' +
-                                      selectedDevice.address);
-                                  _startChat(context, selectedDevice);
-                                } else {
-                                  print('Connect -> no device selected');
-                                }
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Select Paired Device to send data',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                     color: Color(0xFFFC4F4F),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      //     ListTile(
-                      //   title: FlatButton(
-                      //       color: Colors.red,
-                      //       child: const Text(
-                      //         'Search for devices to pair',
-                      //         style: TextStyle(color: Colors.white),
-                      //       ),
-                      //       onPressed: () async {
-                      //         final BluetoothDevice? selectedDevice =
-                      //             await Navigator.of(context).push(
-                      //           MaterialPageRoute(
-                      //             builder: (context) {
-                      //               return DiscoveryPage();
-                      //             },
-                      //           ),
-                      //         );
-
-                      //         if (selectedDevice != null) {
-                      //           print(
-                      //               'Discovery -> selected ' + selectedDevice.address);
-                      //         } else {
-                      //           print('Discovery -> no device selected');
-                      //         }
-                      //       }),
-                      // ),
-                      // ListTile(
-                      //   title: FlatButton(
-                      //     color: Colors.red,
-                      //     child: const Text(
-                      //       'Select Paired Device to send data',
-                      //       style: TextStyle(color: Colors.white),
-                      //     ),
-                      //     onPressed: () async {
-                      //       final BluetoothDevice? selectedDevice =
-                      //           await Navigator.of(context).push(
-                      //         MaterialPageRoute(
-                      //           builder: (context) {
-                      //             return SelectBondedDevicePage(
-                      //                 checkAvailability: false);
-                      //           },
-                      //         ),
-                      //       );
-
-                      //       if (selectedDevice != null) {
-                      //         print('Connect -> selected ' + selectedDevice.address);
-                      //         _startChat(context, selectedDevice);
-                      //       } else {
-                      //         print('Connect -> no device selected');
-                      //       }
-                      //     },
-                      //   ),
-                      // ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
+
+              // Expanded(
+              //   child: Container(
+              //     alignment: Alignment.center,
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       crossAxisAlignment: CrossAxisAlignment.center,
+              //       children: [
+              //         Padding(
+              //           padding: const EdgeInsets.only(
+              //               top: 10.0, left: 15.0, right: 15.0),
+              //           child: Row(
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             crossAxisAlignment: CrossAxisAlignment.center,
+              //             children: [
+              //               ElevatedButton(
+              //                 style: ElevatedButton.styleFrom(
+              //                   primary: Colors.white,
+              //                   onPrimary:   Color(0xFFFC4F4F),
+              //                   side: BorderSide(
+              //                     width: 3,
+              //                      color: Color(0xFFFC4F4F),
+              //                   ),
+              //                   shape: RoundedRectangleBorder(
+              //                     borderRadius: BorderRadius.circular(10),
+              //                   ),
+              //                 ),
+              //                 onPressed: () async {
+              //                   final BluetoothDevice? selectedDevice =
+              //                       await Navigator.of(context).push(
+              //                     MaterialPageRoute(
+              //                       builder: (context) {
+              //                         return DiscoveryPage();
+              //                       },
+              //                     ),
+              //                   );
+
+              //                   if (selectedDevice != null) {
+              //                     print('Discovery -> selected ' +
+              //                         selectedDevice.address);
+              //                   } else {
+              //                     print('Discovery -> no device selected');
+              //                   }
+              //                 },
+              //                 child: Padding(
+              //                   padding: const EdgeInsets.all(8.0),
+              //                   child: Text(
+              //                     'Search for devices to pair',
+              //                     style: TextStyle( color: Color(0xFFFC4F4F),
+              //                     fontSize: 16.0,),
+              //                     textAlign: TextAlign.center,
+              //                   ),
+              //                 ),
+              //               )
+              //             ],
+              //           ),
+              //         ),
+              //         Padding(
+              //           padding: const EdgeInsets.only(
+              //               top: 10.0, left: 15.0, right: 15.0),
+              //           child: Row(
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             crossAxisAlignment: CrossAxisAlignment.center,
+              //             children: [
+              //               ElevatedButton(
+              //                 style: ElevatedButton.styleFrom(
+              //                   primary: Colors.white,
+              //                   onPrimary: Color(0xFFFC4F4F),
+              //                   side: BorderSide(
+              //                     width: 3,
+              //                     color: Color(0xFFFC4F4F),
+              //                   ),
+              //                   shape: RoundedRectangleBorder(
+              //                     borderRadius: BorderRadius.circular(10),
+              //                   ),
+              //                 ),
+              //                 onPressed: () async {
+              //                   final BluetoothDevice? selectedDevice =
+              //                       await Navigator.of(context).push(
+              //                     MaterialPageRoute(
+              //                       builder: (context) {
+              //                         return SelectBondedDevicePage(
+              //                             checkAvailability: false);
+              //                       },
+              //                     ),
+              //                   );
+
+              //                   if (selectedDevice != null) {
+              //                     print('Connect -> selected ' +
+              //                         selectedDevice.address);
+              //                     _startChat(context, selectedDevice);
+              //                   } else {
+              //                     print('Connect -> no device selected');
+              //                   }
+              //                 },
+              //                 child: Padding(
+              //                   padding: const EdgeInsets.all(8.0),
+              //                   child: Text(
+              //                     'Select Paired Device to send data',
+              //                     style: TextStyle(
+              //                       fontSize: 16.0,
+              //                        color: Color(0xFFFC4F4F),
+              //                     ),
+              //                     textAlign: TextAlign.center,
+              //                   ),
+              //                 ),
+              //               )
+              //             ],
+              //           ),
+              //         ),
+              //         //     ListTile(
+              //         //   title: FlatButton(
+              //         //       color: Colors.red,
+              //         //       child: const Text(
+              //         //         'Search for devices to pair',
+              //         //         style: TextStyle(color: Colors.white),
+              //         //       ),
+              //         //       onPressed: () async {
+              //         //         final BluetoothDevice? selectedDevice =
+              //         //             await Navigator.of(context).push(
+              //         //           MaterialPageRoute(
+              //         //             builder: (context) {
+              //         //               return DiscoveryPage();
+              //         //             },
+              //         //           ),
+              //         //         );
+
+              //         //         if (selectedDevice != null) {
+              //         //           print(
+              //         //               'Discovery -> selected ' + selectedDevice.address);
+              //         //         } else {
+              //         //           print('Discovery -> no device selected');
+              //         //         }
+              //         //       }),
+              //         // ),
+              //         // ListTile(
+              //         //   title: FlatButton(
+              //         //     color: Colors.red,
+              //         //     child: const Text(
+              //         //       'Select Paired Device to send data',
+              //         //       style: TextStyle(color: Colors.white),
+              //         //     ),
+              //         //     onPressed: () async {
+              //         //       final BluetoothDevice? selectedDevice =
+              //         //           await Navigator.of(context).push(
+              //         //         MaterialPageRoute(
+              //         //           builder: (context) {
+              //         //             return SelectBondedDevicePage(
+              //         //                 checkAvailability: false);
+              //         //           },
+              //         //         ),
+              //         //       );
+
+              //         //       if (selectedDevice != null) {
+              //         //         print('Connect -> selected ' + selectedDevice.address);
+              //         //         _startChat(context, selectedDevice);
+              //         //       } else {
+              //         //         print('Connect -> no device selected');
+              //         //       }
+              //         //     },
+              //         //   ),
+              //         // ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
               Divider(),
               //            ListTile(title: const Text('Multiple connections example')),
