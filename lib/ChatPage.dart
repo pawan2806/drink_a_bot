@@ -2,6 +2,7 @@
 // ignore_for_file: file_names
 
 import 'dart:async';
+import 'dart:math';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -147,7 +148,7 @@ class _ChatPage extends State<ChatPage> {
                               style: TextStyle(
                                 fontSize: 25,
                                 color: greyShade,
-                                
+
                                 fontWeight: FontWeight.w800,
                               ),
                               maxLines: 4,
@@ -236,6 +237,21 @@ class _ChatPage extends State<ChatPage> {
               ],
             ),
             Divider(),
+            SizedBox(height:100),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment:MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      icon: const Icon(Icons.compress),
+                      onPressed: isConnected
+                          ? () => _sendMessage('V')
+                          : null),
+                ),
+              ],
+            ),
 
             Flexible(
               child: ListView(
@@ -251,6 +267,7 @@ class _ChatPage extends State<ChatPage> {
   }
 
   void _onDataReceived(Uint8List data) {
+    print(data);
     // Allocate buffer for parsed data
     int backspacesCounter = 0;
     data.forEach((byte) {
@@ -259,6 +276,7 @@ class _ChatPage extends State<ChatPage> {
       }
     });
     Uint8List buffer = Uint8List(data.length - backspacesCounter);
+
     int bufferIndex = buffer.length;
 
     // Apply backspace control character
@@ -277,26 +295,21 @@ class _ChatPage extends State<ChatPage> {
 
     // Create message if there is new line character
     String dataString = String.fromCharCodes(buffer);
-    int index = buffer.indexOf(13);
-    if (~index != 0) {
-      setState(() {
-        messages.add(
-          _Message(
-            1,
-            backspacesCounter > 0
-                ? _messageBuffer.substring(
-                0, _messageBuffer.length - backspacesCounter)
-                : _messageBuffer + dataString.substring(0, index),
-          ),
-        );
-        _messageBuffer = dataString.substring(index);
-      });
-    } else {
-      _messageBuffer = (backspacesCounter > 0
-          ? _messageBuffer.substring(
-          0, _messageBuffer.length - backspacesCounter)
-          : _messageBuffer + dataString);
-    }
+    print(dataString);
+    int mini = 1;
+    int maxi = 300;
+    int dataInt = int.parse(dataString)>300?min(300,int.parse(dataString)):int.parse(dataString);
+    print(dataInt);
+    double percent = ((dataInt-mini)/max(1,(maxi-mini)));
+    print(percent*100);
+    setState(() {
+      messages.add(
+        _Message(
+          1,
+          "The Volume left is " + (percent*100).toStringAsFixed(1) + "%",
+        ),
+      );
+    });
   }
 
   void _sendMessage(String text) async {
