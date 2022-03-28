@@ -117,7 +117,7 @@ class _MainPage extends State<MainPage> {
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
-                            "Welcome to Drink-a-Bot Console",
+                            "Drink-a-Bot Console",
                             style: TextStyle(
                               fontSize: 25,
                               color: greyShade,

@@ -238,19 +238,54 @@ class _ChatPage extends State<ChatPage> {
             ),
             Divider(),
             SizedBox(height:100),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment:MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                      icon: const Icon(Icons.compress),
-                      onPressed: isConnected
-                          ? () => _sendMessage('V')
-                          : null),
-                ),
-              ],
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   mainAxisAlignment:MainAxisAlignment.center,
+            //   children: <Widget>[
+            //     Container(
+            //       margin: const EdgeInsets.all(8.0),
+            //       child: IconButton(
+            //           icon: const Icon(Icons.compress),
+            //           onPressed: isConnected
+            //               ? () => _sendMessage('V')
+            //               : null),
+            //     ),
+            //   ],
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 10.0, left: 15.0, right: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      onPrimary:   Color(0xFFFC4F4F),
+                      side: BorderSide(
+                        width: 3,
+                        color: Color(0xFFFC4F4F),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                onPressed: isConnected
+                              ? () => _sendMessage('V')
+                              : null,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Get Volume',
+                        style: TextStyle( color: Color(0xFFFC4F4F),
+                          fontSize: 16.0,),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
 
             Flexible(
