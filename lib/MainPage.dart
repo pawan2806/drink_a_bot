@@ -178,140 +178,138 @@ class _MainPage extends State<MainPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.2,
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        
-                        height: 250,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            Color(0xff7b4397),
-                            Color(0xff33001b),
-                          ],
-                        )),
-                        child: Column(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    final BluetoothDevice? selectedDevice =
-                                        await Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return DiscoveryPage();
-                                        },
-                                      ),
-                                    );
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
 
-                                    if (selectedDevice != null) {
-                                      print('Discovery -> selected ' +
-                                          selectedDevice.address);
-                                    } else {
-                                      print('Discovery -> no device selected');
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Text(
-                                      'Search' +
-                                          '\n' +
-                                          'for new' +
-                                          '\n' +
-                                          'Devices',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 30.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.center,
+                      height: 250,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color(0xff7b4397),
+                          Color(0xff33001b),
+                        ],
+                      )),
+                      child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  final BluetoothDevice? selectedDevice =
+                                      await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return DiscoveryPage();
+                                      },
                                     ),
+                                  );
+
+                                  if (selectedDevice != null) {
+                                    print('Discovery -> selected ' +
+                                        selectedDevice.address);
+                                  } else {
+                                    print('Discovery -> no device selected');
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text(
+                                    'Search' +
+                                        '\n' +
+                                        'for new' +
+                                        '\n' +
+                                        'Devices',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        height: 250,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            Color(0xff3a6186),
-                            Color(0xff89253e),
-                          ],
-                        )),
-                        child: Column(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    final BluetoothDevice? selectedDevice =
-                                        await Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return SelectBondedDevicePage(
-                                              checkAvailability: false);
-                                        },
-                                      ),
-                                    );
-
-                                    if (selectedDevice != null) {
-                                      print('Connect -> selected ' +
-                                          selectedDevice.address);
-                                      _startChat(context, selectedDevice);
-                                    } else {
-                                      print('Connect -> no device selected');
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Text(
-                                      'Select ' +
-                                          '\n' +
-                                          'Paired' +
-                                          '\n' +
-                                          'Devices',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 30.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.center,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      height: 250,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color(0xff3a6186),
+                          Color(0xff89253e),
+                        ],
+                      )),
+                      child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  final BluetoothDevice? selectedDevice =
+                                      await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return SelectBondedDevicePage(
+                                            checkAvailability: false);
+                                      },
                                     ),
+                                  );
+
+                                  if (selectedDevice != null) {
+                                    print('Connect -> selected ' +
+                                        selectedDevice.address);
+                                    _startChat(context, selectedDevice);
+                                  } else {
+                                    print('Connect -> no device selected');
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text(
+                                    'Select ' +
+                                        '\n' +
+                                        'Paired' +
+                                        '\n' +
+                                        'Devices',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
-                              ],
-                            )
-                          ],
-                        ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
 
               // Expanded(

@@ -237,7 +237,7 @@ class _ChatPage extends State<ChatPage> {
               ],
             ),
             Divider(),
-            SizedBox(height:100),
+            SizedBox(height:20),
             // Row(
             //   crossAxisAlignment: CrossAxisAlignment.center,
             //   mainAxisAlignment:MainAxisAlignment.center,
@@ -278,7 +278,7 @@ class _ChatPage extends State<ChatPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Get Volume',
-                        style: TextStyle( color: Color(0xFFFC4F4F),
+                        style: TextStyle( color: greyShade,
                           fontSize: 16.0,),
                         textAlign: TextAlign.center,
                       ),
