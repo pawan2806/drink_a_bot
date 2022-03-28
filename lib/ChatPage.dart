@@ -262,10 +262,10 @@ class _ChatPage extends State<ChatPage> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
-                      onPrimary:   Color(0xFFFC4F4F),
+                      onPrimary:   greyShade,
                       side: BorderSide(
                         width: 3,
-                        color: Color(0xFFFC4F4F),
+                        color: greyShade,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
