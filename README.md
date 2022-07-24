@@ -1,6 +1,6 @@
 # Drink-a-Bot Controller
 
-![alt text](https://gcdnb.pbrd.co/images/5EbTYDNWzkEK.jpg?o=1)
+![alt text](https://i.postimg.cc/QxM0phY5/image1.jpg)
 
 ## About Drink-a-Bot
 ○ Drink-a-Bot is a smart drink dispenser that can move around and serve drinks using a dispenser system. 
